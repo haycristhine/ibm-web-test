@@ -1,33 +1,36 @@
 <template>
   <cv-header aria-label="Carbon tutorial">
-    <cv-skip-to-content href="#main-content"
-      >Skip to content</cv-skip-to-content
-    >
-    <cv-header-name to="/">Your App</cv-header-name>
-    <cv-header-nav>
-      <cv-header-menu-item to="/">Success Page</cv-header-menu-item>
-      <cv-header-menu-item to="/empty-page">An Empty Page</cv-header-menu-item>
+    <cv-header-name to="#">StackOverflow Searcher</cv-header-name>
+    <cv-header-nav v-if="$auth.isAuthenticated">
+      <cv-header-menu-item to="/home">Home</cv-header-menu-item>
+      <cv-header-menu-item to="/empty-page">Favorites</cv-header-menu-item>
     </cv-header-nav>
-    <template slot="header-global">
-      <cv-header-global-action aria-label="Notifications">
-        <notification-20 />
-      </cv-header-global-action>
-      <cv-header-global-action aria-label="User avatar">
-        <user-avatar-20 />
-      </cv-header-global-action>
-      <cv-header-global-action aria-label="App switcher">
-        <app-switcher-20 />
+    <template v-if="!$auth.loading" slot="header-global">
+      <cv-header-menu-item v-if="$auth.isAuthenticated"
+        >Welcome, {{ $auth.user.name }}</cv-header-menu-item
+      >
+      <cv-header-global-action
+        v-if="$auth.isAuthenticated"
+        @click="logout"
+        aria-label="Logout"
+      >
+        <logout-20 />
       </cv-header-global-action>
     </template>
   </cv-header>
 </template>
 
 <script>
+import Logout20 from '@carbon/icons-vue/es/logout/20';
 import Notification20 from '@carbon/icons-vue/es/notification/20';
 import UserAvatar20 from '@carbon/icons-vue/es/user--avatar/20';
-import AppSwitcher20 from '@carbon/icons-vue/es/app-switcher/20';
 export default {
   name: 'TutorialHeader',
-  components: { Notification20, UserAvatar20, AppSwitcher20 }
+  components: { Notification20, UserAvatar20, Logout20 },
+  methods: {
+    logout() {
+      this.$auth.logout({ returnTo: window.location.origin });
+    },
+  },
 };
 </script>

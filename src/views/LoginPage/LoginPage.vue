@@ -129,10 +129,9 @@
 <script>
 import Login32 from '@carbon/icons-vue/es/login/32';
 import ThumbsUp32 from '@carbon/icons-vue/es/thumbs-up/32';
-import Play32 from '@carbon/icons-vue/es/play--filled--alt/32';
 
 export default {
-  name: 'ChallengePage',
+  name: 'LoginPage',
   components: {
     ThumbsUp32,
     Login32,
@@ -196,8 +195,19 @@ export default {
       }
       alert(message);
     },
+    check_auth: function () {
+      if (this.$auth.isAuthenticated) {
+        this.$router.push('/home');
+      }
+    },
   },
   computed: {},
+  mounted: function () {
+    this.check_auth();
+  },
+  updated: function () {
+    this.check_auth();
+  },
 };
 </script>
 
