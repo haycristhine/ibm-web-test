@@ -1,5 +1,7 @@
 ---
 applications:
- - name: first-app
+ - name: stackoverflow-searcher
    random-route: true
-   memory: 64M
+   memory: 256M
+   instances: 1
+   buildpack: sdk-for-nodejs
